@@ -93,7 +93,9 @@ const Post = ({ data, refetch }: PostProps) => {
                 <AvatarFallback>FB</AvatarFallback>
               </Avatar>
               <div>
-                <p className="text-sm font-medium leading-none">Sofia Davis</p>
+                <p className="text-sm font-medium leading-none">
+                  {data.sender.name}
+                </p>
                 <p className="mt-1 text-xs text-muted-foreground">
                   {new Intl.DateTimeFormat("en-US", {
                     year: "numeric",

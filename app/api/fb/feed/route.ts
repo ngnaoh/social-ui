@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
   const pageId = pages.data[0].id;
   const pageToken = pages.data[0].access_token;
   const posts = await getPosts(pageId, pageToken);
-  return NextResponse.json(posts);
+  return NextResponse.json({ posts, sender: pages.data[0] });
 }
 
 export async function POST(request: NextRequest) {

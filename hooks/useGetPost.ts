@@ -1,9 +1,13 @@
 import * as React from "react";
+import { TFBAccount } from "./useFBAccounts";
 
 export type TFBPost = {
   created_time: string;
   message: string;
   id: string;
+  sender: {
+    name: string;
+  };
 };
 
 const useGetPosts = () => {
@@ -15,9 +19,14 @@ const useGetPosts = () => {
     });
     if (!response) return;
     const data = await response.json();
-    const posts = data.data as TFBPost[];
-    setData(posts);
-    return posts;
+    const posts = data.posts.data as TFBPost[];
+
+    const masterPosts: TFBPost[] = posts.map((post) => ({
+      ...post,
+      sender: data.sender,
+    }));
+    setData(masterPosts);
+    return masterPosts;
   };
 
   React.useEffect(() => {
