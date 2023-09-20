@@ -1,13 +1,12 @@
 "use client";
 
-import React from "react";
+import * as React from "react";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Button } from "./ui/button";
 import { Textarea } from "./ui/textarea";
-import { toast } from "./ui/use-toast";
 import {
   Dialog,
   DialogContent,
@@ -83,11 +82,12 @@ export function CreatePostDialog() {
   }
 
   const socials = React.useMemo<TSelectOption[]>(() => {
-    const fbAccounts = data.map((account) => ({
-      label: account.name,
-      value: `${account.id}-${account.access_token}`,
-      icon: Icons.facebook,
-    }));
+    const fbAccounts =
+      data?.map((account) => ({
+        label: account.name,
+        value: `${account.id}-${account.access_token}`,
+        icon: Icons.facebook,
+      })) || [];
 
     const insAccounts = [
       {

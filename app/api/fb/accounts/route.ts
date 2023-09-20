@@ -8,5 +8,5 @@ export async function GET(request: NextRequest) {
   const response = await profile(accessToken);
   const user: TUser = response?.data;
   const pages = await getAllPagesAccess(user?.facebookToken);
-  return NextResponse.json(pages);
+  return NextResponse.json(pages || {});
 }

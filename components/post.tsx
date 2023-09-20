@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import * as React from "react";
 import {
   Card,
   CardContent,
@@ -33,8 +33,8 @@ import {
   AlertDialogDescription,
   AlertDialogCancel,
 } from "./ui/alert-dialog";
-import { toast } from "./ui/use-toast";
 import { useDebounce } from "@/hooks/useDebounce";
+import { TFBPost } from "@/hooks/useGetPost";
 
 export const PostSkeleton = () => {
   return (
@@ -48,17 +48,12 @@ export const PostSkeleton = () => {
   );
 };
 
-export type TFBPost = {
-  created_time: string;
-  message: string;
-  id: string;
-};
-
 type PostProps = {
   data: TFBPost;
+  refetch: () => Promise<TFBPost[] | undefined>;
 };
 
-const Post = ({ data }: PostProps) => {
+const Post = ({ data, refetch }: PostProps) => {
   const [openEditModal, setOpenEditModal] = React.useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = React.useState(false);
   const [isLike, setIsLike] = React.useState(false);
@@ -73,6 +68,7 @@ const Post = ({ data }: PostProps) => {
       }),
     });
     if (response.ok) {
+      refetch();
       setShowDeleteDialog(false);
     }
   }

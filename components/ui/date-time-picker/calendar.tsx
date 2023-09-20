@@ -7,7 +7,7 @@ import {
   getLocalTimeZone,
   getWeeksInMonth,
 } from "@internationalized/date";
-import React, { useMemo } from "react";
+import * as React from "react";
 import {
   CalendarProps,
   DateValue,
@@ -143,7 +143,7 @@ function CalendarCell({ state, date }: CalendarCellProps) {
     formattedDate,
   } = useCalendarCell({ date }, state, ref);
 
-  const isToday = useMemo(() => {
+  const isToday = React.useMemo(() => {
     const timezone = getLocalTimeZone();
     return _isToday(date, timezone);
   }, [date]);

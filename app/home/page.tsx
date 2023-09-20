@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -8,7 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 
-import { FacebookPosts, InstagramPosts, TwitterPosts } from "./actions";
+import { InstagramPosts, TwitterPosts } from "./actions";
+import FacebookPosts from "@/components/facebook-post";
 
 export default async function Page() {
   const cookieStore = cookies();

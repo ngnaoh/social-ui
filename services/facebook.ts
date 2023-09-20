@@ -19,7 +19,9 @@ export async function getAllPagesAccess(facebookToken: string) {
       }
     );
     return await response.json();
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 export async function createPost(
@@ -55,7 +57,9 @@ export async function createPost(
       }
     );
     return await response.json();
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 export async function getPosts(pageId: string, pageToken: string) {
@@ -76,7 +80,9 @@ export async function getPosts(pageId: string, pageToken: string) {
       }
     );
     return await response.json();
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 export async function deletePost(pagePostId: string, pageToken: string) {
@@ -97,5 +103,7 @@ export async function deletePost(pagePostId: string, pageToken: string) {
       }
     );
     return await response.json();
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 }

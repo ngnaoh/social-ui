@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { useCookies } from "react-cookie";
 
 export type TUser = {

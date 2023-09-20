@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import * as React from "react";
 import { TimeValue } from "react-aria";
 import { TimeFieldStateOptions } from "react-stately";
 import { TimeField } from "./time-field";

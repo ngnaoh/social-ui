@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import * as React from "react";
 import Link from "next/link";
 
 import {
@@ -77,9 +77,9 @@ export function SocialMedia({ socialMedia }: AlbumArtworkProps) {
     <Card className="w-72">
       <CardHeader className="flex-row justify-between items-end">
         {socialMedia.icon}
-        <Button variant="outline" disabled={disabled}>
+        <Button variant="outline">
           <Link href={socialMedia.urlAction || ""} target="_blank">
-            {disabled ? "Added" : "Add"}
+            {disabled ? "Renew" : "Add"}
           </Link>
         </Button>
       </CardHeader>

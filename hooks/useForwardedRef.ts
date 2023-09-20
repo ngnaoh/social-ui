@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 
 export function useForwardedRef<T>(ref: React.ForwardedRef<T>) {
   const innerRef = React.useRef<T>(null);
