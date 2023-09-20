@@ -72,7 +72,7 @@ export function CreatePostDialog() {
       formData.schedule = data.schedule.getTime() / 1000;
     }
 
-    const response = await fetch("/api/feed", {
+    const response = await fetch("/api/fb/feed", {
       method: "POST",
       body: JSON.stringify(formData),
     });

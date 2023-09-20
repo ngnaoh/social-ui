@@ -78,3 +78,24 @@ export async function getPosts(pageId: string, pageToken: string) {
     return await response.json();
   } catch (error) {}
 }
+
+export async function deletePost(pagePostId: string, pageToken: string) {
+  try {
+    const response = await fetch(
+      FB_API_URL +
+        "/" +
+        pagePostId +
+        "?" +
+        new URLSearchParams({
+          access_token: pageToken,
+        }),
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return await response.json();
+  } catch (error) {}
+}
