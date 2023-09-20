@@ -5,19 +5,26 @@ import { usePathname, useRouter } from "next/navigation";
 import { ExitIcon, GearIcon, HomeIcon } from "@radix-ui/react-icons";
 
 import { cn } from "@/lib/utils";
-// import { ScrollArea } from "@/registry/new-york/ui/scroll-area";
-
-// import { Playlist } from "../data/playlists";
 import { Button } from "./ui/button";
 import { ToggleTheme } from "./toggle-theme";
-import Link from "next/link";
+import { useCookies } from "react-cookie";
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function Sidebar({ className }: SidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
-  function signOut() {}
+  const [cookies, setCookie, removeCookie] = useCookies([
+    "accessToken",
+    "refreshToken",
+    "userId",
+  ]);
+  function signOut() {
+    removeCookie("accessToken", { path: "/" });
+    removeCookie("refreshToken", { path: "/" });
+    removeCookie("userId", { path: "/" });
+    router.push("/");
+  }
   return (
     <div className={cn("pb-12 h-screen flex flex-col", className)}>
       <div className="space-y-4 py-4">
