@@ -7,7 +7,7 @@ export async function GET(request: NextRequest) {
   const accessToken = request.cookies.get("accessToken")?.value || "";
   const response = await profile(accessToken);
   const user: TUser = response.data;
-  const pages = await getAllPagesAccess(user.facebookToken);
+  const pages = await getAllPagesAccess(user?.facebookToken);
   const pageId = pages.data[0].id;
   const pageToken = pages.data[0].access_token;
   const posts = await getPosts(pageId, pageToken);
