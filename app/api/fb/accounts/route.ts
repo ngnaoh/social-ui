@@ -6,9 +6,7 @@ import { NextResponse, type NextRequest } from "next/server";
 export async function GET(request: NextRequest) {
   const accessToken = request.cookies.get("accessToken")?.value || "";
   const response = await profile(accessToken);
-  const user: TUser = response.data;
-
+  const user: TUser = response?.data;
   const pages = await getAllPagesAccess(user.facebookToken);
-
-  return NextResponse.json(pages.data);
+  return NextResponse.json(pages);
 }

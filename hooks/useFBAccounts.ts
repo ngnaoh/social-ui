@@ -13,9 +13,10 @@ const useFBAccounts = () => {
     const response = await fetch("/api/fb/accounts", {
       method: "GET",
     });
-    const data: TFBAccount[] = await response.json();
-    setData(data);
-    return data;
+    const data = await response.json();
+    const accounts: TFBAccount[] = data.data;
+    setData(accounts);
+    return accounts;
   };
 
   React.useEffect(() => {

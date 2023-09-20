@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { useCookies } from "react-cookie";
 
@@ -24,9 +22,10 @@ const useUser = () => {
         },
       }
     );
-    const result = await response.json();
-    setUser(result?.data);
-    return user;
+    const data = await response.json();
+    const result = data.data as TUser;
+    setUser(result);
+    return result;
   };
 
   async function refetch() {

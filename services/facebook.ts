@@ -2,22 +2,24 @@ const FB_API_URL = process.env.NEXT_PUBLIC_FB_API_URL;
 const FB_USER_ID = process.env.FB_USER_ID;
 
 export async function getAllPagesAccess(facebookToken: string) {
-  const response = await fetch(
-    FB_API_URL +
-      "/" +
-      FB_USER_ID +
-      "/accounts?" +
-      new URLSearchParams({
-        access_token: facebookToken.split("&")[0],
-      }),
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  );
-  return await response.json();
+  try {
+    const response = await fetch(
+      FB_API_URL +
+        "/" +
+        FB_USER_ID +
+        "/accounts?" +
+        new URLSearchParams({
+          access_token: facebookToken.split("&")[0],
+        }),
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return await response.json();
+  } catch (error) {}
 }
 
 export async function createPost(

@@ -20,14 +20,15 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
+export type TSelectOption = {
+  label: string;
+  value: string;
+  disabled?: boolean;
+  icon?: React.ComponentType<{ className?: string }>;
+};
 interface MultipleFilterProps {
   title?: string;
-  options: {
-    label: string;
-    value: string;
-    disabled?: boolean;
-    icon?: React.ComponentType<{ className?: string }>;
-  }[];
+  options: TSelectOption[];
   value: string[];
   onChange: (value: string[]) => void;
 }

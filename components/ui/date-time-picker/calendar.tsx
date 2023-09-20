@@ -86,7 +86,10 @@ function CalendarGrid({ state, ...props }: CalendarGridProps) {
   const { gridProps, headerProps, weekDays } = useCalendarGrid(props, state);
 
   // Get the number of weeks in the month so we can render the proper number of rows.
-  const weeksInMonth = getWeeksInMonth(state.visibleRange.start, locale);
+  const weeksInMonth = [
+    //@ts-ignore
+    ...new Array(getWeeksInMonth(state.visibleRange.start, locale)).keys(),
+  ];
 
   return (
     <table
@@ -106,7 +109,7 @@ function CalendarGrid({ state, ...props }: CalendarGridProps) {
         </tr>
       </thead>
       <tbody>
-        {[...new Array(weeksInMonth).keys()].map((weekIndex) => (
+        {weeksInMonth.map((weekIndex) => (
           <tr className="flex w-full mt-2" key={weekIndex}>
             {state
               .getDatesInWeek(weekIndex)
