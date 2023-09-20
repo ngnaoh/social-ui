@@ -70,6 +70,7 @@ export function SocialMedia({ socialMedia }: AlbumArtworkProps) {
     const token = hash.split("=")[1];
     if (!tokenType || !token) return;
     updateUser(tokenType, token);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

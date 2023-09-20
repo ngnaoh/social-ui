@@ -84,7 +84,8 @@ export function CreatePostDialog() {
             <DialogHeader>
               <DialogTitle>Create a post</DialogTitle>
               <DialogDescription>
-                Make changes to your post here. Click save when you're done.
+                Make changes to your post here. Click save when you&apos;re
+                done.
               </DialogDescription>
             </DialogHeader>
             <div className="py-5 flex-1 flex-col">

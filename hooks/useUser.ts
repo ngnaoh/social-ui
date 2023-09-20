@@ -35,6 +35,7 @@ const useUser = () => {
 
   React.useEffect(() => {
     retrieveUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return { user, refetch };
 };
