@@ -12,73 +12,42 @@ import {
 } from "./ui/card";
 import { Button } from "./ui/button";
 import useUser from "@/hooks/useUser";
+import { TTokenType } from "@/types/common";
 
 export type TSocialMedia = {
   name: string;
   icon: JSX.Element;
   description: string;
   type: TTokenType;
-  urlAction?: string;
+  urlAction: string;
 };
 
 interface AlbumArtworkProps extends React.HTMLAttributes<HTMLDivElement> {
   socialMedia: TSocialMedia;
 }
 
-type TTokenType = "facebookToken" | "instagramToken" | "twitterToken";
-
 export function SocialMedia({ socialMedia }: AlbumArtworkProps) {
-  const { user, refetch } = useUser();
-
-  async function updateUser(tokenType: TTokenType, token: string) {
-    const data: {
-      facebookToken?: string;
-    } = {};
-    switch (tokenType) {
-      case "facebookToken":
-        data.facebookToken = token;
-        break;
-      case "instagramToken":
-        break;
-      case "twitterToken":
-        break;
-
-      default:
-        break;
-    }
-    await fetch("/api/user", {
-      method: "PATCH",
-      body: JSON.stringify(data),
-    });
-    refetch();
-  }
+  const { user } = useUser();
 
   const disabled = React.useMemo(() => {
     switch (socialMedia.type) {
       case "facebookToken":
         return !!user?.facebookToken;
-
+      case "instagramToken":
+        return !!user?.instagramToken;
+      case "twitterToken":
+        return !!user?.twitterToken;
       default:
         return false;
     }
   }, [user, socialMedia.type]);
-
-  React.useEffect(() => {
-    const { hash, search } = window.location;
-    const tokenType =
-      (new URLSearchParams(search).get("type") as TTokenType) || "";
-    const token = hash.split("=")[1];
-    if (!tokenType || !token) return;
-    updateUser(tokenType, token);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <Card className="w-72">
       <CardHeader className="flex-row justify-between items-end">
         {socialMedia.icon}
         <Button variant="outline">
-          <Link href={socialMedia.urlAction || ""} target="_blank">
+          <Link href={socialMedia.urlAction} target="_blank">
             {disabled ? "Renew" : "Add"}
           </Link>
         </Button>

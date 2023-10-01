@@ -28,11 +28,13 @@ import { MultipleFilter, TSelectOption } from "./multiple-filter";
 import { DateTimePicker } from "./ui/date-time-picker/date-time-picker";
 import { Icons } from "./ui/icons";
 import { Input } from "./ui/input";
-import useFBAccounts from "@/hooks/useFBAccounts";
+import useAccounts, { TAccountTypes } from "@/hooks/useAccounts";
 
 const TEN_MINUTE_TIMESTAMP = 600000;
 
 const FormSchema = z.object({
+  // image: z.instanceof(File).nullable().optional(),
+  image: z.string().optional(),
   message: z.string({
     required_error: "Message in required",
   }),
@@ -60,43 +62,51 @@ const FormSchema = z.object({
 
 export function CreatePostDialog() {
   const [open, setOpen] = React.useState(false);
-  const { data } = useFBAccounts();
+  const { data } = useAccounts();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
 
+  async function createPost(
+    type: TAccountTypes,
+    formData: z.infer<typeof FormSchema>
+  ) {
+    return fetch(`/api/${type}/feed`, {
+      method: "POST",
+      body: JSON.stringify(formData),
+    });
+  }
+
   async function onSubmit(data: z.infer<typeof FormSchema>) {
+    let isFailed = true;
     const formData: any = { ...data };
     if (data.schedule) {
       formData.schedule = data.schedule.getTime() / 1000;
     }
 
-    const response = await fetch("/api/fb/feed", {
-      method: "POST",
-      body: JSON.stringify(formData),
-    });
+    for (let index = 0; index < data.senders.length; index++) {
+      const element = await createPost(
+        data.senders[index].split("-")[0] as TAccountTypes,
+        formData
+      );
+      if (!element.ok) {
+        isFailed = true;
+      }
+    }
 
-    if (response.ok) {
+    if (isFailed) {
       setOpen(false);
     }
   }
 
   const socials = React.useMemo<TSelectOption[]>(() => {
-    const fbAccounts =
-      data?.map((account) => ({
-        label: account.name,
-        value: `${account.id}-${account.access_token}`,
-        icon: Icons.facebook,
-      })) || [];
+    const accounts: TSelectOption[] = data?.map((e) => ({
+      value: `${e.type}-${e.id}-${e.access_token}`,
+      label: e.name,
+      disabled: false,
+      icon: Icons[e.type],
+    }));
 
-    const insAccounts = [
-      {
-        value: "instagram",
-        label: "Instagram",
-        icon: Icons.instagram,
-        disabled: true,
-      },
-    ];
     const twiAccounts = [
       {
         value: "twitter",
@@ -106,17 +116,17 @@ export function CreatePostDialog() {
       },
     ];
 
-    return [...fbAccounts, ...insAccounts, ...twiAccounts];
+    return [...accounts, ...twiAccounts];
   }, [data]);
 
   return (
-    <Dialog open={open}>
+    <Dialog open={open} onOpenChange={(open) => setOpen(open)}>
       <DialogTrigger asChild>
         <Button variant="outline" onClick={() => setOpen(true)}>
           Create a post
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-[70vw] h-[50vh]">
+      <DialogContent className="max-w-[70vw] h-[65vh]">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -143,6 +153,21 @@ export function CreatePostDialog() {
                           value={field.value}
                           onChange={field.onChange}
                         />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="mt-3">
+                <FormField
+                  control={form.control}
+                  name="image"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Image Url</FormLabel>
+                      <FormControl>
+                        <Input type="input" onChange={field.onChange} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

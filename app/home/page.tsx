@@ -8,8 +8,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 
-import { InstagramPosts, TwitterPosts } from "./actions";
+import { TwitterPosts } from "./actions";
 import FacebookPosts from "@/components/facebook-post";
+import InstagramPosts from "@/components/instagram-post";
 
 export default async function Page() {
   const cookieStore = cookies();

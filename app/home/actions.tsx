@@ -14,9 +14,6 @@ const LoadingTemplate = (
   </div>
 );
 
-export async function InstagramPosts() {
-  return LoadingTemplate;
-}
 export async function TwitterPosts() {
   return LoadingTemplate;
 }

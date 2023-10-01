@@ -34,7 +34,7 @@ import {
   AlertDialogCancel,
 } from "./ui/alert-dialog";
 import { useDebounce } from "@/hooks/useDebounce";
-import { TFBPost } from "@/hooks/useGetPost";
+import Image from "next/image";
 
 export const PostSkeleton = () => {
   return (
@@ -48,9 +48,19 @@ export const PostSkeleton = () => {
   );
 };
 
+export type TPost = {
+  id: string;
+  message?: string;
+  image?: string;
+  createdAt: string;
+  sender: {
+    name: string;
+  };
+};
+
 type PostProps = {
-  data: TFBPost;
-  refetch: () => Promise<TFBPost[] | undefined>;
+  data: TPost;
+  refetch: () => Promise<TPost[] | undefined>;
 };
 
 const Post = ({ data, refetch }: PostProps) => {
@@ -61,7 +71,7 @@ const Post = ({ data, refetch }: PostProps) => {
   const debouncedValue = useDebounce<boolean>(isLike, 1000);
 
   async function deletePost() {
-    const response = await fetch("/api/fb/feed", {
+    const response = await fetch("/api/facebook/feed", {
       method: "DELETE",
       body: JSON.stringify({
         id: data.id,
@@ -94,7 +104,7 @@ const Post = ({ data, refetch }: PostProps) => {
               </Avatar>
               <div>
                 <p className="text-sm font-medium leading-none">
-                  {data.sender.name}
+                  {data.sender?.name}
                 </p>
                 <p className="mt-1 text-xs text-muted-foreground">
                   {new Intl.DateTimeFormat("en-US", {
@@ -106,7 +116,7 @@ const Post = ({ data, refetch }: PostProps) => {
                     second: "numeric",
                     hour12: false,
                     timeZone: "America/Los_Angeles",
-                  }).format(new Date(data.created_time))}
+                  })?.format(new Date(data.createdAt))}
                 </p>
               </div>
             </div>
@@ -133,6 +143,19 @@ const Post = ({ data, refetch }: PostProps) => {
         </CardTitle>
       </CardHeader>
       <CardContent className="grid gap-6">
+        {!!data.image && (
+          <CardDescription>
+            <div className="overflow-hidden rounded-md">
+              <Image
+                src={data.image}
+                alt={data.id}
+                width={250}
+                height={250}
+                className="h-auto w-auto object-cover aspect-square"
+              />
+            </div>
+          </CardDescription>
+        )}
         <CardDescription>{data.message}</CardDescription>
       </CardContent>
       <CardFooter className="flex justify-end">
@@ -140,7 +163,6 @@ const Post = ({ data, refetch }: PostProps) => {
           {isLike ? <HeartFilledIcon /> : <HeartIcon />}
         </Button>
       </CardFooter>
-
       <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
         <AlertDialogContent>
           <AlertDialogHeader>

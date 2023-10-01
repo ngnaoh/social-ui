@@ -1,15 +1,16 @@
-const FB_API_URL = process.env.NEXT_PUBLIC_FB_API_URL;
-const FB_USER_ID = process.env.FB_USER_ID;
+const API_URL = process.env.NEXT_PUBLIC_FACEBOOK_API_URL;
+const USER_ID = process.env.FACEBOOK_USER_ID;
 
 export async function getAllPagesAccess(facebookToken: string) {
   try {
     const response = await fetch(
-      FB_API_URL +
+      API_URL +
         "/" +
-        FB_USER_ID +
+        USER_ID +
         "/accounts?" +
         new URLSearchParams({
-          access_token: facebookToken.split("&")[0],
+          access_token: facebookToken,
+          fields: "instagram_business_account,name,access_token",
         }),
       {
         method: "GET",
@@ -42,7 +43,7 @@ export async function createPost(
     }
     query.access_token = pageToken;
     const response = await fetch(
-      FB_API_URL +
+      API_URL +
         "/" +
         pageId +
         "/feed?" +
@@ -65,12 +66,13 @@ export async function createPost(
 export async function getPosts(pageId: string, pageToken: string) {
   try {
     const response = await fetch(
-      FB_API_URL +
+      API_URL +
         "/" +
         pageId +
         "/feed?" +
         new URLSearchParams({
           access_token: pageToken,
+          fields: "message,created_time,attachments",
         }),
       {
         method: "GET",
@@ -88,7 +90,7 @@ export async function getPosts(pageId: string, pageToken: string) {
 export async function deletePost(pagePostId: string, pageToken: string) {
   try {
     const response = await fetch(
-      FB_API_URL +
+      API_URL +
         "/" +
         pagePostId +
         "?" +

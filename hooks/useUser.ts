@@ -1,9 +1,12 @@
+import { redirect } from "next/navigation";
 import * as React from "react";
 import { useCookies } from "react-cookie";
 
 export type TUser = {
   accessCode: string;
   facebookToken: string;
+  instagramToken: string;
+  twitterToken: string;
   id: string;
   phone: string;
 };
@@ -23,6 +26,7 @@ const useUser = () => {
       }
     );
     const data = await response.json();
+    if (!data) redirect("/");
     const result = data.data as TUser;
     setUser(result);
     return result;

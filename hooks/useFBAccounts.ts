@@ -10,7 +10,7 @@ const useFBAccounts = () => {
   const [data, setData] = React.useState<TFBAccount[]>([]);
 
   const get = async () => {
-    const response = await fetch("/api/fb/accounts", {
+    const response = await fetch("/api/facebook/accounts", {
       method: "GET",
     });
     const data = await response.json();

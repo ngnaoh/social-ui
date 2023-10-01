@@ -1,11 +1,11 @@
 "use client";
 
-import useGetFacebookPost from "@/hooks/useGetFacebookPost";
+import useGetInstagramPost from "@/hooks/useGetInstagramPost";
 import Post, { PostSkeleton } from "./post";
 import { ScrollArea, ScrollBar } from "./ui/scroll-area";
 
-export default function FacebookPosts() {
-  const { data: posts, refetch } = useGetFacebookPost();
+export default function InstagramPosts() {
+  const { data: posts, refetch } = useGetInstagramPost();
 
   return (
     <div className="relative">
